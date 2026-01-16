@@ -31,7 +31,8 @@ TOKEN_URL = "https://live.logonvalidation.net/token"
 APP_KEY = os.environ.get("SAXO_APP_KEY", "a8c97c9fa28f4668aa16b0501b5223bf")
 APP_SECRET = os.environ.get("SAXO_APP_SECRET", "a3c9040b2eeb4a1a98dc45b7a5458fc2")
 
-# Manual sector mapping (fallback/override)
+# Manual sector mapping - Yahoo Finance API requires authentication now
+# Add new symbols here when you add them to your portfolio
 SECTOR_MAP = {
     "NOVOb:xcse": "Healthcare",
     "NVO:xnys": "Healthcare",
@@ -90,22 +91,33 @@ def convert_saxo_symbol_to_yahoo(symbol):
     return f"{ticker}{suffix}"
 
 def lookup_sector(symbol):
-    """Look up sector for a stock using Yahoo Finance.
+    """Look up sector for a stock using Yahoo Finance API directly.
 
     Returns sector string or None if lookup fails.
+    Uses the quoteSummary endpoint which includes sector info.
     """
-    if not YFINANCE_AVAILABLE:
-        return None
-
     yahoo_symbol = convert_saxo_symbol_to_yahoo(symbol)
 
     try:
-        ticker = yf.Ticker(yahoo_symbol)
-        info = ticker.info
-        sector = info.get("sector")
-        if sector:
-            print(f"  Found sector for {symbol} ({yahoo_symbol}): {sector}")
-            return sector
+        # Use Yahoo Finance quoteSummary API directly (avoids yfinance rate limiting)
+        url = f"https://query1.finance.yahoo.com/v10/finance/quoteSummary/{yahoo_symbol}"
+        params = {
+            "modules": "assetProfile",
+        }
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+        }
+        response = requests.get(url, params=params, headers=headers, timeout=10)
+
+        if response.status_code == 200:
+            data = response.json()
+            result = data.get("quoteSummary", {}).get("result", [])
+            if result:
+                profile = result[0].get("assetProfile", {})
+                sector = profile.get("sector")
+                if sector:
+                    print(f"  Found sector for {symbol} ({yahoo_symbol}): {sector}")
+                    return sector
     except Exception as e:
         print(f"  Could not lookup sector for {symbol}: {e}")
 
