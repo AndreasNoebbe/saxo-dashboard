@@ -1,0 +1,51 @@
+name: Fetch Saxo Positions
+
+on:
+  schedule:
+    # Run every hour during extended market hours (6 AM - 11 PM CET, Mon-Fri)
+    - cron: '0 5-22 * * 1-5'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Decrypt and restore tokens
+        env:
+          TOKENS_PASSPHRASE: ${{ secrets.TOKENS_PASSPHRASE }}
+        run: |
+          openssl enc -aes-256-cbc -d -pbkdf2 -in tokens_live.json.enc -out tokens_live.json -pass pass:"$TOKENS_PASSPHRASE"
+
+      - name: Fetch positions
+        env:
+          SAXO_APP_KEY: ${{ secrets.SAXO_APP_KEY }}
+          SAXO_APP_SECRET: ${{ secrets.SAXO_APP_SECRET }}
+        run: python scripts/fetch_positions.py
+
+      - name: Re-encrypt tokens (in case they were refreshed)
+        env:
+          TOKENS_PASSPHRASE: ${{ secrets.TOKENS_PASSPHRASE }}
+        run: |
+          openssl enc -aes-256-cbc -pbkdf2 -in tokens_live.json -out tokens_live.json.enc -pass pass:"$TOKENS_PASSPHRASE"
+
+      - name: Commit and push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/positions.json tokens_live.json.enc
+          git diff --staged --quiet || git commit -m "Update portfolio data"
+          git push

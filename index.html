@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saxo Portfolio Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .last-updated {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
+        }
+
+        .card-label {
+            font-size: 0.85rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .card-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .card-value.positive {
+            color: #00d26a;
+        }
+
+        .card-value.negative {
+            color: #ff4757;
+        }
+
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chart-container h3 {
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+        }
+
+        .positions-table {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-x: auto;
+        }
+
+        .positions-table h3 {
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            color: #888;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        td {
+            font-size: 0.95rem;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .symbol {
+            font-weight: 600;
+            color: #00d4ff;
+        }
+
+        .positive {
+            color: #00d26a;
+        }
+
+        .negative {
+            color: #ff4757;
+        }
+
+        .market-open {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .market-open.open {
+            background: #00d26a;
+            box-shadow: 0 0 8px #00d26a;
+        }
+
+        .market-open.closed {
+            background: #888;
+        }
+
+        .sector-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            background: rgba(123, 44, 191, 0.3);
+            color: #d4a5ff;
+        }
+
+        .sector-tag.healthcare {
+            background: rgba(0, 210, 106, 0.2);
+            color: #00d26a;
+        }
+
+        .sector-tag.technology {
+            background: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
+        }
+
+        .sector-tag.financial {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+
+        .sector-tag.consumer {
+            background: rgba(255, 71, 87, 0.2);
+            color: #ff6b7a;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .card-value {
+                font-size: 1.4rem;
+            }
+
+            th, td {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Saxo Portfolio</h1>
+            <p class="last-updated" id="lastUpdated">Loading...</p>
+        </header>
+
+        <div class="summary-cards" id="summaryCards">
+            <!-- Populated by JS -->
+        </div>
+
+        <div class="charts-row">
+            <div class="chart-container">
+                <h3>Holdings Allocation</h3>
+                <div class="chart-wrapper">
+                    <canvas id="holdingsChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-container">
+                <h3>Sector Allocation</h3>
+                <div class="chart-wrapper">
+                    <canvas id="sectorChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="positions-table">
+            <h3>Positions</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Description</th>
+                        <th>Shares</th>
+                        <th>Avg Price</th>
+                        <th>Current</th>
+                        <th>Value (DKK)</th>
+                        <th>P/L</th>
+                        <th>%</th>
+                        <th>Sector</th>
+                    </tr>
+                </thead>
+                <tbody id="positionsTable">
+                    <!-- Populated by JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>Data from Saxo Bank OpenAPI | Built by <a href="https://andedam.dev">Andreas Dam</a></p>
+        </footer>
+    </div>
+
+    <script>
+        const DATA_URL = 'data/positions.json';
+
+        // Color palette
+        const COLORS = [
+            '#00d4ff', '#7b2cbf', '#00d26a', '#ffc107',
+            '#ff4757', '#5352ed', '#ff6b7a', '#2ed573'
+        ];
+
+        const SECTOR_COLORS = {
+            'Healthcare': '#00d26a',
+            'Technology': '#00d4ff',
+            'Financial Services': '#ffc107',
+            'Consumer Cyclical': '#ff6b7a',
+            'Other': '#888'
+        };
+
+        function formatNumber(num, decimals = 2) {
+            return new Intl.NumberFormat('da-DK', {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
+            }).format(num);
+        }
+
+        function formatCurrency(num, currency = 'DKK') {
+            return `${formatNumber(num)} ${currency}`;
+        }
+
+        function getSectorClass(sector) {
+            const map = {
+                'Healthcare': 'healthcare',
+                'Technology': 'technology',
+                'Financial Services': 'financial',
+                'Consumer Cyclical': 'consumer'
+            };
+            return map[sector] || '';
+        }
+
+        function renderSummary(data) {
+            const { summary, positions } = data;
+            const totalPL = positions.reduce((sum, p) => sum + p.profit_loss_dkk, 0);
+            const plClass = totalPL >= 0 ? 'positive' : 'negative';
+
+            document.getElementById('summaryCards').innerHTML = `
+                <div class="card">
+                    <div class="card-label">Total Value</div>
+                    <div class="card-value">${formatCurrency(summary.total_value)}</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Positions Value</div>
+                    <div class="card-value">${formatCurrency(summary.positions_value)}</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Cash Balance</div>
+                    <div class="card-value">${formatCurrency(summary.cash_balance)}</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Total P/L</div>
+                    <div class="card-value ${plClass}">${totalPL >= 0 ? '+' : ''}${formatCurrency(totalPL)}</div>
+                </div>
+            `;
+        }
+
+        function renderPositionsTable(positions) {
+            const tbody = document.getElementById('positionsTable');
+            tbody.innerHTML = positions.map(pos => {
+                const plClass = pos.profit_loss_dkk >= 0 ? 'positive' : 'negative';
+                const marketClass = pos.market_state === 'Open' ? 'open' : 'closed';
+                const sectorClass = getSectorClass(pos.sector);
+
+                return `
+                    <tr>
+                        <td>
+                            <span class="market-open ${marketClass}"></span>
+                            <span class="symbol">${pos.symbol.split(':')[0]}</span>
+                        </td>
+                        <td>${pos.description}</td>
+                        <td>${formatNumber(pos.amount, 0)}</td>
+                        <td>${formatNumber(pos.avg_price)} ${pos.currency}</td>
+                        <td>${formatNumber(pos.current_price)} ${pos.currency}</td>
+                        <td>${formatNumber(pos.market_value_dkk)}</td>
+                        <td class="${plClass}">${pos.profit_loss_dkk >= 0 ? '+' : ''}${formatNumber(pos.profit_loss_dkk)}</td>
+                        <td class="${plClass}">${pos.profit_loss_pct >= 0 ? '+' : ''}${formatNumber(pos.profit_loss_pct)}%</td>
+                        <td><span class="sector-tag ${sectorClass}">${pos.sector}</span></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function createHoldingsChart(allocations) {
+            const ctx = document.getElementById('holdingsChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: allocations.map(a => a.symbol.split(':')[0]),
+                    datasets: [{
+                        data: allocations.map(a => a.percentage),
+                        backgroundColor: COLORS,
+                        borderColor: 'transparent',
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#e4e4e4',
+                                padding: 15,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) => {
+                                    const alloc = allocations[ctx.dataIndex];
+                                    return `${alloc.symbol.split(':')[0]}: ${alloc.percentage}% (${formatNumber(alloc.value)} DKK)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createSectorChart(allocations) {
+            const ctx = document.getElementById('sectorChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: allocations.map(a => a.sector),
+                    datasets: [{
+                        data: allocations.map(a => a.percentage),
+                        backgroundColor: allocations.map(a => SECTOR_COLORS[a.sector] || '#888'),
+                        borderColor: 'transparent',
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#e4e4e4',
+                                padding: 15,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) => {
+                                    const alloc = allocations[ctx.dataIndex];
+                                    return `${alloc.sector}: ${alloc.percentage}% (${formatNumber(alloc.value)} DKK)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        async function loadData() {
+            try {
+                const response = await fetch(DATA_URL);
+                const data = await response.json();
+
+                // Update last updated
+                const lastUpdated = new Date(data.last_updated);
+                document.getElementById('lastUpdated').textContent =
+                    `Last updated: ${lastUpdated.toLocaleString('da-DK')}`;
+
+                // Render components
+                renderSummary(data);
+                renderPositionsTable(data.positions);
+                createHoldingsChart(data.allocations.by_holding);
+                createSectorChart(data.allocations.by_sector);
+
+            } catch (error) {
+                console.error('Failed to load data:', error);
+                document.getElementById('lastUpdated').textContent = 'Failed to load data';
+            }
+        }
+
+        // Load data on page load
+        loadData();
+    </script>
+</body>
+</html>

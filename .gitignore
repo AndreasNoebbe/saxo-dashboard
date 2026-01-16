@@ -1,0 +1,17 @@
+# Tokens - NEVER commit these
+tokens.json
+tokens_live.json
+.tokens_passphrase
+
+# SSL certificates
+*.pem
+
+# Python
+__pycache__/
+*.pyc
+.env
+venv/
+
+# IDE
+.vscode/
+.idea/
