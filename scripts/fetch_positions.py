@@ -41,6 +41,7 @@ SECTOR_MAP = {
     "XPEV:xnys": "Consumer Cyclical",
     "DUOL:xnas": "Technology",
     "FISV:xnas": "Financial Services",
+    "SSYS:xnas": "Technology",
 }
 
 def load_sector_cache():

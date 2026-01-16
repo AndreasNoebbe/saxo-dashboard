@@ -1,5 +1,5 @@
 {
-  "last_synced": "2026-01-16T14:37:09.544292",
+  "last_synced": "2026-01-16T14:39:23.011598",
   "cash_balance": 6042.81,
   "currency": "DKK",
   "holdings": [
@@ -64,7 +64,7 @@
       "currency": "USD",
       "shares": 70.0,
       "avg_price": 12.56,
-      "sector": "Other"
+      "sector": "Technology"
     },
     {
       "symbol": "DUOL:xnas",

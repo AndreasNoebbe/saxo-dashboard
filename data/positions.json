@@ -1,10 +1,10 @@
 {
-  "last_updated": "2026-01-16T14:37:09.543267",
+  "last_updated": "2026-01-16T14:39:23.010712",
   "currency": "DKK",
   "summary": {
-    "total_value": 689730.13,
+    "total_value": 689325.48,
     "cash_balance": 6042.81,
-    "positions_value": 682820.18,
+    "positions_value": 682415.84,
     "open_positions_count": 56,
     "net_positions_count": 10
   },
@@ -16,12 +16,12 @@
       "currency": "DKK",
       "amount": 1200.0,
       "avg_price": 369.35,
-      "current_price": 380.65,
-      "market_value": 456780.0,
-      "market_value_dkk": 456780.0,
-      "profit_loss": 13194.1,
-      "profit_loss_dkk": 13194.1,
-      "profit_loss_pct": 3.06,
+      "current_price": 380.4,
+      "market_value": 456480.0,
+      "market_value_dkk": 456480.0,
+      "profit_loss": 14274.1,
+      "profit_loss_dkk": 14274.1,
+      "profit_loss_pct": 2.99,
       "sector": "Healthcare",
       "asset_type": "Stock",
       "market_state": "Open"
@@ -35,7 +35,7 @@
       "avg_price": 55.4,
       "current_price": 57.12,
       "market_value": 28560.0,
-      "market_value_dkk": 183194.09,
+      "market_value_dkk": 183188.82,
       "profit_loss": 837.89,
       "profit_loss_dkk": 5473.68,
       "profit_loss_pct": 3.1,
@@ -52,7 +52,7 @@
       "avg_price": 29.98,
       "current_price": 29.41,
       "market_value": 882.3,
-      "market_value_dkk": 5659.39,
+      "market_value_dkk": 5659.23,
       "profit_loss": -18.23,
       "profit_loss_dkk": -117.31,
       "profit_loss_pct": -1.89,
@@ -69,7 +69,7 @@
       "avg_price": 160.01,
       "current_price": 170.91,
       "market_value": 854.55,
-      "market_value_dkk": 5481.39,
+      "market_value_dkk": 5481.23,
       "profit_loss": 54.4,
       "profit_loss_dkk": 349.27,
       "profit_loss_pct": 6.81,
@@ -84,9 +84,9 @@
       "currency": "USD",
       "amount": 15.0,
       "avg_price": 56.53,
-      "current_price": 56.75,
-      "market_value": 851.18,
-      "market_value_dkk": 5459.74,
+      "current_price": 56.74,
+      "market_value": 851.17,
+      "market_value_dkk": 5459.58,
       "profit_loss": 2.62,
       "profit_loss_dkk": 16.89,
       "profit_loss_pct": 0.38,
@@ -103,7 +103,7 @@
       "avg_price": 20.96,
       "current_price": 20.88,
       "market_value": 835.2,
-      "market_value_dkk": 5357.27,
+      "market_value_dkk": 5357.12,
       "profit_loss": -3.6,
       "profit_loss_dkk": -23.24,
       "profit_loss_pct": -0.38,
@@ -120,11 +120,11 @@
       "avg_price": 12.56,
       "current_price": 11.62,
       "market_value": 813.4,
-      "market_value_dkk": 5217.44,
+      "market_value_dkk": 5217.29,
       "profit_loss": -67.27,
       "profit_loss_dkk": -433.66,
       "profit_loss_pct": -7.49,
-      "sector": "Other",
+      "sector": "Technology",
       "asset_type": "Stock",
       "market_state": "PreMarket"
     },
@@ -137,7 +137,7 @@
       "avg_price": 158.98,
       "current_price": 154.42,
       "market_value": 772.1,
-      "market_value_dkk": 4952.53,
+      "market_value_dkk": 4952.38,
       "profit_loss": -22.95,
       "profit_loss_dkk": -148.02,
       "profit_loss_pct": -2.87,
@@ -154,7 +154,7 @@
       "avg_price": 66.98,
       "current_price": 66.78,
       "market_value": 667.8,
-      "market_value_dkk": 4283.51,
+      "market_value_dkk": 4283.39,
       "profit_loss": -1.96,
       "profit_loss_dkk": -12.63,
       "profit_loss_pct": -0.29,
@@ -168,83 +168,78 @@
       {
         "symbol": "NOVOb:xcse",
         "description": "Novo Nordisk B A/S",
-        "value": 456780.0,
-        "percentage": 66.9
+        "value": 456480.0,
+        "percentage": 66.89
       },
       {
         "symbol": "NVO:xnys",
         "description": "Novo Nordisk A/S - ADR",
-        "value": 183194.09,
-        "percentage": 26.83
+        "value": 183188.82,
+        "percentage": 26.84
       },
       {
         "symbol": "JD:xnas",
         "description": "JD.com Inc. - ADR",
-        "value": 5659.39,
+        "value": 5659.23,
         "percentage": 0.83
       },
       {
         "symbol": "MSTR:xnas",
         "description": "Strategy Inc.",
-        "value": 5481.39,
+        "value": 5481.23,
         "percentage": 0.8
       },
       {
         "symbol": "PYPL:xnas",
         "description": "PayPal Holdings Inc.",
-        "value": 5459.74,
+        "value": 5459.58,
         "percentage": 0.8
       },
       {
         "symbol": "XPEV:xnys",
         "description": "XPeng Inc. - ADR",
-        "value": 5357.27,
-        "percentage": 0.78
+        "value": 5357.12,
+        "percentage": 0.79
       },
       {
         "symbol": "SSYS:xnas",
         "description": "Stratasys Ltd",
-        "value": 5217.44,
+        "value": 5217.29,
         "percentage": 0.76
       },
       {
         "symbol": "DUOL:xnas",
         "description": "Duolingo Inc.",
-        "value": 4952.53,
+        "value": 4952.38,
         "percentage": 0.73
       },
       {
         "symbol": "FISV:xnas",
         "description": "Fiserv Inc",
-        "value": 4283.51,
+        "value": 4283.39,
         "percentage": 0.63
       }
     ],
     "by_sector": [
       {
         "sector": "Healthcare",
-        "value": 639974.09,
-        "percentage": 93.73
-      },
-      {
-        "sector": "Consumer Cyclical",
-        "value": 11016.66,
-        "percentage": 1.61
+        "value": 639668.82,
+        "percentage": 93.74
       },
       {
         "sector": "Technology",
-        "value": 10433.92,
-        "percentage": 1.53
+        "value": 15650.9,
+        "percentage": 2.29
+      },
+      {
+        "sector": "Consumer Cyclical",
+        "value": 11016.35,
+        "percentage": 1.61
       },
       {
         "sector": "Financial Services",
-        "value": 9743.25,
+        "value": 9742.97,
         "percentage": 1.43
-      },
-      {
-        "sector": "Other",
-        "value": 5217.44,
-        "percentage": 0.76
       }
     ]
   }
