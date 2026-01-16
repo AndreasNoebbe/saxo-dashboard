@@ -468,44 +468,67 @@
             return map[sector] || '';
         }
 
-        // Fetch live prices from Yahoo Finance via a CORS proxy
+        // Fetch live prices using multiple CORS proxy fallbacks
         async function fetchLivePrices(symbols) {
             const prices = {};
 
-            // Use Yahoo Finance query API (works with CORS for basic quotes)
-            const symbolList = symbols.join(',');
+            // Add USD/DKK to the symbols list
+            const allSymbols = [...symbols, 'USDDKK=X'];
+            const symbolList = allSymbols.join(',');
 
-            try {
-                // Try Yahoo Finance v7 API via allorigins proxy
-                const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbolList}`;
-                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+            // List of CORS proxies to try
+            const proxies = [
+                (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+                (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+                (url) => `https://cors-anywhere.herokuapp.com/${url}`,
+            ];
 
-                const response = await fetch(proxyUrl);
-                const data = await response.json();
+            const yahooUrl = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbolList}`;
 
-                if (data.quoteResponse && data.quoteResponse.result) {
-                    for (const quote of data.quoteResponse.result) {
-                        prices[quote.symbol] = {
-                            price: quote.regularMarketPrice || 0,
-                            change: quote.regularMarketChange || 0,
-                            changePercent: quote.regularMarketChangePercent || 0,
-                            marketState: quote.marketState || 'CLOSED'
-                        };
+            for (const proxyFn of proxies) {
+                try {
+                    const proxyUrl = proxyFn(yahooUrl);
+                    console.log('Trying proxy:', proxyUrl);
+
+                    const response = await fetch(proxyUrl, {
+                        headers: { 'Accept': 'application/json' }
+                    });
+
+                    if (!response.ok) {
+                        console.log('Proxy returned status:', response.status);
+                        continue;
                     }
+
+                    const data = await response.json();
+
+                    if (data.quoteResponse && data.quoteResponse.result && data.quoteResponse.result.length > 0) {
+                        console.log('Got data from Yahoo Finance:', data.quoteResponse.result.length, 'quotes');
+
+                        for (const quote of data.quoteResponse.result) {
+                            if (quote.symbol === 'USDDKK=X') {
+                                exchangeRates.USD = quote.regularMarketPrice || 7.0;
+                                console.log('USD/DKK rate:', exchangeRates.USD);
+                            } else {
+                                prices[quote.symbol] = {
+                                    price: quote.regularMarketPrice || 0,
+                                    change: quote.regularMarketChange || 0,
+                                    changePercent: quote.regularMarketChangePercent || 0,
+                                    marketState: quote.marketState || 'CLOSED'
+                                };
+                                console.log(`${quote.symbol}: ${quote.regularMarketPrice}`);
+                            }
+                        }
+                        break; // Success, exit the proxy loop
+                    }
+                } catch (error) {
+                    console.error('Proxy failed:', error.message);
+                    continue; // Try next proxy
                 }
+            }
 
-                // Get USD/DKK exchange rate
-                const usdDkkUrl = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=USDDKK=X`;
-                const usdDkkProxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(usdDkkUrl)}`;
-                const usdDkkResponse = await fetch(usdDkkProxyUrl);
-                const usdDkkData = await usdDkkResponse.json();
-
-                if (usdDkkData.quoteResponse && usdDkkData.quoteResponse.result[0]) {
-                    exchangeRates.USD = usdDkkData.quoteResponse.result[0].regularMarketPrice || 7.0;
-                }
-
-            } catch (error) {
-                console.error('Failed to fetch live prices:', error);
+            // If all proxies failed, log it
+            if (Object.keys(prices).length === 0) {
+                console.warn('All proxies failed - using fallback prices');
             }
 
             return prices;
@@ -746,9 +769,10 @@
 
                 // Update header with sync info
                 const lastSynced = new Date(holdings.last_synced);
-                const now = new Date();
+                const pricesFetched = Object.keys(prices).length > 0;
+                const priceStatus = pricesFetched ? '<strong style="color:#00d26a">Live</strong>' : '<strong style="color:#ff4757">Offline</strong>';
                 document.getElementById('lastUpdated').innerHTML =
-                    `Prices: <strong>Live</strong> | Holdings synced: ${lastSynced.toLocaleString('da-DK')} | USD/DKK: ${formatNumber(exchangeRates.USD, 4)}`;
+                    `Prices: ${priceStatus} | Holdings synced: ${lastSynced.toLocaleString('da-DK')} | USD/DKK: ${formatNumber(exchangeRates.USD, 4)}`;
 
                 // Render components
                 renderSummary(data);
