@@ -20,6 +20,7 @@ PROJECT_DIR = SCRIPT_DIR.parent
 TOKENS_FILE = PROJECT_DIR / "tokens_live.json"
 DATA_DIR = PROJECT_DIR / "data"
 POSITIONS_FILE = DATA_DIR / "positions.json"
+HOLDINGS_FILE = DATA_DIR / "holdings.json"
 SECTOR_CACHE_FILE = DATA_DIR / "sector_cache.json"
 
 # Saxo API
@@ -387,7 +388,30 @@ def main():
     with open(POSITIONS_FILE, "w") as f:
         json.dump(output, f, indent=2)
 
+    # Also save holdings.json with static data for live price fetching
+    holdings = {
+        "last_synced": datetime.now().isoformat(),
+        "cash_balance": round(cash_balance, 2),
+        "currency": balances.get("Currency", "DKK"),
+        "holdings": []
+    }
+
+    for pos in positions:
+        holdings["holdings"].append({
+            "symbol": pos["symbol"],
+            "yahoo_symbol": convert_saxo_symbol_to_yahoo(pos["symbol"]),
+            "description": pos["description"],
+            "currency": pos["currency"],
+            "shares": pos["amount"],
+            "avg_price": pos["avg_price"],
+            "sector": pos["sector"],
+        })
+
+    with open(HOLDINGS_FILE, "w") as f:
+        json.dump(holdings, f, indent=2)
+
     print(f"Saved {len(positions)} positions to {POSITIONS_FILE}")
+    print(f"Saved holdings to {HOLDINGS_FILE}")
     print(f"Total portfolio value: {total_value:,.2f} {output['currency']}")
 
 if __name__ == "__main__":

@@ -1,0 +1,79 @@
+{
+  "last_synced": "2026-01-16T11:30:06.741483",
+  "cash_balance": 6042.77,
+  "currency": "DKK",
+  "holdings": [
+    {
+      "symbol": "NOVOb:xcse",
+      "yahoo_symbol": "NOVO-B.CO",
+      "description": "Novo Nordisk B A/S",
+      "currency": "DKK",
+      "shares": 1200.0,
+      "avg_price": 369.35,
+      "sector": "Healthcare"
+    },
+    {
+      "symbol": "NVO:xnys",
+      "yahoo_symbol": "NVO",
+      "description": "Novo Nordisk A/S - ADR",
+      "currency": "USD",
+      "shares": 500.0,
+      "avg_price": 55.4,
+      "sector": "Healthcare"
+    },
+    {
+      "symbol": "JD:xnas",
+      "yahoo_symbol": "JD",
+      "description": "JD.com Inc. - ADR",
+      "currency": "USD",
+      "shares": 30.0,
+      "avg_price": 29.98,
+      "sector": "Consumer Cyclical"
+    },
+    {
+      "symbol": "MSTR:xnas",
+      "yahoo_symbol": "MSTR",
+      "description": "Strategy Inc.",
+      "currency": "USD",
+      "shares": 5.0,
+      "avg_price": 160.01,
+      "sector": "Technology"
+    },
+    {
+      "symbol": "PYPL:xnas",
+      "yahoo_symbol": "PYPL",
+      "description": "PayPal Holdings Inc.",
+      "currency": "USD",
+      "shares": 15.0,
+      "avg_price": 56.53,
+      "sector": "Financial Services"
+    },
+    {
+      "symbol": "XPEV:xnys",
+      "yahoo_symbol": "XPEV",
+      "description": "XPeng Inc. - ADR",
+      "currency": "USD",
+      "shares": 40.0,
+      "avg_price": 20.96,
+      "sector": "Consumer Cyclical"
+    },
+    {
+      "symbol": "DUOL:xnas",
+      "yahoo_symbol": "DUOL",
+      "description": "Duolingo Inc.",
+      "currency": "USD",
+      "shares": 5.0,
+      "avg_price": 158.98,
+      "sector": "Technology"
+    },
+    {
+      "symbol": "FISV:xnas",
+      "yahoo_symbol": "FISV",
+      "description": "Fiserv Inc",
+      "currency": "USD",
+      "shares": 10.0,
+      "avg_price": 66.98,
+      "sector": "Financial Services"
+    }
+  ]
+}
