@@ -1,12 +1,12 @@
 {
-  "last_updated": "2026-01-16T14:42:28.449310",
+  "last_updated": "2026-01-16T15:50:06.853792",
   "currency": "DKK",
   "summary": {
-    "total_value": 688647.12,
+    "total_value": 692723.65,
     "cash_balance": 6042.81,
-    "positions_value": 681738.0,
-    "open_positions_count": 56,
-    "net_positions_count": 10
+    "positions_value": 691466.41,
+    "open_positions_count": 57,
+    "net_positions_count": 11
   },
   "positions": [
     {
@@ -16,12 +16,12 @@
       "currency": "DKK",
       "amount": 1200.0,
       "avg_price": 369.35,
-      "current_price": 380.05,
-      "market_value": 456060.0,
-      "market_value_dkk": 456060.0,
-      "profit_loss": 14694.1,
-      "profit_loss_dkk": 14694.1,
-      "profit_loss_pct": 2.9,
+      "current_price": 383.0,
+      "market_value": 459600.0,
+      "market_value_dkk": 459600.0,
+      "profit_loss": 17334.1,
+      "profit_loss_dkk": 17334.1,
+      "profit_loss_pct": 3.69,
       "sector": "Healthcare",
       "asset_type": "Stock",
       "market_state": "Open"
@@ -33,15 +33,32 @@
       "currency": "USD",
       "amount": 500.0,
       "avg_price": 55.4,
-      "current_price": 57.12,
-      "market_value": 28560.0,
-      "market_value_dkk": 183195.94,
-      "profit_loss": 837.89,
-      "profit_loss_dkk": 5473.68,
-      "profit_loss_pct": 3.1,
+      "current_price": 59.52,
+      "market_value": 29757.5,
+      "market_value_dkk": 190869.2,
+      "profit_loss": 2102.89,
+      "profit_loss_dkk": 13737.53,
+      "profit_loss_pct": 7.42,
       "sector": "Healthcare",
       "asset_type": "Stock",
-      "market_state": "PreMarket"
+      "market_state": "Open"
+    },
+    {
+      "uic": 22571584,
+      "symbol": "PATH:xnys",
+      "description": "UiPath Inc.",
+      "currency": "USD",
+      "amount": 60.0,
+      "avg_price": 14.62,
+      "current_price": 14.61,
+      "market_value": 876.58,
+      "market_value_dkk": 5622.53,
+      "profit_loss": -16.5,
+      "profit_loss_dkk": -106.39,
+      "profit_loss_pct": -0.07,
+      "sector": "Other",
+      "asset_type": "Stock",
+      "market_state": "Open"
     },
     {
       "uic": 881301,
@@ -50,15 +67,15 @@
       "currency": "USD",
       "amount": 30.0,
       "avg_price": 29.98,
-      "current_price": 29.41,
-      "market_value": 882.3,
-      "market_value_dkk": 5659.45,
-      "profit_loss": -18.23,
-      "profit_loss_dkk": -117.31,
-      "profit_loss_pct": -1.89,
+      "current_price": 28.97,
+      "market_value": 868.95,
+      "market_value_dkk": 5573.58,
+      "profit_loss": -33.08,
+      "profit_loss_dkk": -212.87,
+      "profit_loss_pct": -3.38,
       "sector": "Consumer Cyclical",
       "asset_type": "Stock",
-      "market_state": "PreMarket"
+      "market_state": "Open"
     },
     {
       "uic": 787,
@@ -67,15 +84,15 @@
       "currency": "USD",
       "amount": 5.0,
       "avg_price": 160.01,
-      "current_price": 170.91,
-      "market_value": 854.55,
-      "market_value_dkk": 5481.45,
-      "profit_loss": 54.4,
-      "profit_loss_dkk": 349.27,
-      "profit_loss_pct": 6.81,
+      "current_price": 169.61,
+      "market_value": 848.05,
+      "market_value_dkk": 5439.52,
+      "profit_loss": 40.36,
+      "profit_loss_dkk": 259.15,
+      "profit_loss_pct": 6.0,
       "sector": "Technology",
       "asset_type": "Stock",
-      "market_state": "PreMarket"
+      "market_state": "Open"
     },
     {
       "uic": 2202847,
@@ -84,15 +101,15 @@
       "currency": "USD",
       "amount": 15.0,
       "avg_price": 56.53,
-      "current_price": 56.74,
-      "market_value": 851.17,
-      "market_value_dkk": 5459.8,
-      "profit_loss": 2.62,
-      "profit_loss_dkk": 16.89,
-      "profit_loss_pct": 0.38,
+      "current_price": 56.45,
+      "market_value": 846.75,
+      "market_value_dkk": 5431.19,
+      "profit_loss": -1.21,
+      "profit_loss_dkk": -7.8,
+      "profit_loss_pct": -0.14,
       "sector": "Financial Services",
       "asset_type": "Stock",
-      "market_state": "PreMarket"
+      "market_state": "Open"
     },
     {
       "uic": 18894512,
@@ -101,15 +118,15 @@
       "currency": "USD",
       "amount": 40.0,
       "avg_price": 20.96,
-      "current_price": 20.88,
-      "market_value": 835.2,
-      "market_value_dkk": 5357.33,
-      "profit_loss": -3.6,
-      "profit_loss_dkk": -23.24,
-      "profit_loss_pct": -0.38,
+      "current_price": 20.59,
+      "market_value": 823.6,
+      "market_value_dkk": 5282.7,
+      "profit_loss": -23.8,
+      "profit_loss_dkk": -153.62,
+      "profit_loss_pct": -1.77,
       "sector": "Consumer Cyclical",
       "asset_type": "Stock",
-      "market_state": "PreMarket"
+      "market_state": "Open"
     },
     {
       "uic": 15123,
@@ -118,15 +135,15 @@
       "currency": "USD",
       "amount": 70.0,
       "avg_price": 12.56,
-      "current_price": 11.62,
-      "market_value": 813.4,
-      "market_value_dkk": 5217.49,
-      "profit_loss": -67.27,
-      "profit_loss_dkk": -433.66,
-      "profit_loss_pct": -7.49,
+      "current_price": 11.53,
+      "market_value": 807.1,
+      "market_value_dkk": 5176.86,
+      "profit_loss": -79.87,
+      "profit_loss_dkk": -514.89,
+      "profit_loss_pct": -8.21,
       "sector": "Technology",
       "asset_type": "Stock",
-      "market_state": "PreMarket"
+      "market_state": "Open"
     },
     {
       "uic": 24121594,
@@ -135,15 +152,15 @@
       "currency": "USD",
       "amount": 5.0,
       "avg_price": 158.98,
-      "current_price": 154.42,
-      "market_value": 772.1,
-      "market_value_dkk": 4952.58,
-      "profit_loss": -22.95,
-      "profit_loss_dkk": -148.02,
-      "profit_loss_pct": -2.87,
+      "current_price": 149.5,
+      "market_value": 747.48,
+      "market_value_dkk": 4794.42,
+      "profit_loss": -49.87,
+      "profit_loss_dkk": -321.63,
+      "profit_loss_pct": -5.97,
       "sector": "Technology",
       "asset_type": "Stock",
-      "market_state": "PreMarket"
+      "market_state": "Open"
     },
     {
       "uic": 53426468,
@@ -152,15 +169,15 @@
       "currency": "USD",
       "amount": 10.0,
       "avg_price": 66.98,
-      "current_price": 66.78,
-      "market_value": 667.8,
-      "market_value_dkk": 4283.55,
-      "profit_loss": -1.96,
-      "profit_loss_dkk": -12.63,
-      "profit_loss_pct": -0.29,
+      "current_price": 66.23,
+      "market_value": 662.3,
+      "market_value_dkk": 4248.09,
+      "profit_loss": -7.16,
+      "profit_loss_dkk": -46.17,
+      "profit_loss_pct": -1.11,
       "sector": "Financial Services",
       "asset_type": "Stock",
-      "market_state": "PreMarket"
+      "market_state": "Open"
     }
   ],
   "allocations": {
@@ -168,78 +185,89 @@
       {
         "symbol": "NOVOb:xcse",
         "description": "Novo Nordisk B A/S",
-        "value": 456060.0,
-        "percentage": 66.9
+        "value": 459600.0,
+        "percentage": 66.47
       },
       {
         "symbol": "NVO:xnys",
         "description": "Novo Nordisk A/S - ADR",
-        "value": 183195.94,
-        "percentage": 26.87
+        "value": 190869.2,
+        "percentage": 27.6
+      },
+      {
+        "symbol": "PATH:xnys",
+        "description": "UiPath Inc.",
+        "value": 5622.53,
+        "percentage": 0.81
       },
       {
         "symbol": "JD:xnas",
         "description": "JD.com Inc. - ADR",
-        "value": 5659.45,
-        "percentage": 0.83
+        "value": 5573.58,
+        "percentage": 0.81
       },
       {
         "symbol": "MSTR:xnas",
         "description": "Strategy Inc.",
-        "value": 5481.45,
-        "percentage": 0.8
+        "value": 5439.52,
+        "percentage": 0.79
       },
       {
         "symbol": "PYPL:xnas",
         "description": "PayPal Holdings Inc.",
-        "value": 5459.8,
-        "percentage": 0.8
+        "value": 5431.19,
+        "percentage": 0.79
       },
       {
         "symbol": "XPEV:xnys",
         "description": "XPeng Inc. - ADR",
-        "value": 5357.33,
-        "percentage": 0.79
+        "value": 5282.7,
+        "percentage": 0.76
       },
       {
         "symbol": "SSYS:xnas",
         "description": "Stratasys Ltd",
-        "value": 5217.49,
-        "percentage": 0.77
+        "value": 5176.86,
+        "percentage": 0.75
       },
       {
         "symbol": "DUOL:xnas",
         "description": "Duolingo Inc.",
-        "value": 4952.58,
-        "percentage": 0.73
+        "value": 4794.42,
+        "percentage": 0.69
       },
       {
         "symbol": "FISV:xnas",
         "description": "Fiserv Inc",
-        "value": 4283.55,
-        "percentage": 0.63
+        "value": 4248.09,
+        "percentage": 0.61
       }
     ],
     "by_sector": [
       {
         "sector": "Healthcare",
-        "value": 639255.94,
-        "percentage": 93.77
+        "value": 650469.2,
+        "percentage": 94.07
       },
       {
         "sector": "Technology",
-        "value": 15651.52,
-        "percentage": 2.3
+        "value": 15410.8,
+        "percentage": 2.23
       },
       {
         "sector": "Consumer Cyclical",
-        "value": 11016.78,
-        "percentage": 1.62
+        "value": 10856.28,
+        "percentage": 1.57
       },
       {
         "sector": "Financial Services",
-        "value": 9743.35,
-        "percentage": 1.43
+        "value": 9679.28,
+        "percentage": 1.4
+      },
+      {
+        "sector": "Other",
+        "value": 5622.53,
+        "percentage": 0.81
       }
     ]
   }
