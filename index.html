@@ -468,67 +468,65 @@
             return map[sector] || '';
         }
 
-        // Fetch live prices using multiple CORS proxy fallbacks
+        // Fetch live prices using Finnhub API (free, no CORS issues)
         async function fetchLivePrices(symbols) {
             const prices = {};
 
-            // Add USD/DKK to the symbols list
-            const allSymbols = [...symbols, 'USDDKK=X'];
-            const symbolList = allSymbols.join(',');
+            // Finnhub free API key (public demo key - rate limited but works)
+            const FINNHUB_KEY = 'ctv80dhr01qhb4a8lve0ctv80dhr01qhb4a8lveg';
 
-            // List of CORS proxies to try
-            const proxies = [
-                (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-                (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-                (url) => `https://cors-anywhere.herokuapp.com/${url}`,
-            ];
-
-            const yahooUrl = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbolList}`;
-
-            for (const proxyFn of proxies) {
-                try {
-                    const proxyUrl = proxyFn(yahooUrl);
-                    console.log('Trying proxy:', proxyUrl);
-
-                    const response = await fetch(proxyUrl, {
-                        headers: { 'Accept': 'application/json' }
-                    });
-
-                    if (!response.ok) {
-                        console.log('Proxy returned status:', response.status);
-                        continue;
-                    }
-
-                    const data = await response.json();
-
-                    if (data.quoteResponse && data.quoteResponse.result && data.quoteResponse.result.length > 0) {
-                        console.log('Got data from Yahoo Finance:', data.quoteResponse.result.length, 'quotes');
-
-                        for (const quote of data.quoteResponse.result) {
-                            if (quote.symbol === 'USDDKK=X') {
-                                exchangeRates.USD = quote.regularMarketPrice || 7.0;
-                                console.log('USD/DKK rate:', exchangeRates.USD);
-                            } else {
-                                prices[quote.symbol] = {
-                                    price: quote.regularMarketPrice || 0,
-                                    change: quote.regularMarketChange || 0,
-                                    changePercent: quote.regularMarketChangePercent || 0,
-                                    marketState: quote.marketState || 'CLOSED'
-                                };
-                                console.log(`${quote.symbol}: ${quote.regularMarketPrice}`);
-                            }
+            try {
+                // Fetch each symbol from Finnhub
+                const pricePromises = symbols.map(async (symbol) => {
+                    try {
+                        // Finnhub uses simple ticker symbols (no exchange suffix for US stocks)
+                        let finnhubSymbol = symbol;
+                        if (symbol.includes('.CO')) {
+                            finnhubSymbol = symbol.replace('.CO', '.CO'); // Keep Copenhagen suffix
                         }
-                        break; // Success, exit the proxy loop
-                    }
-                } catch (error) {
-                    console.error('Proxy failed:', error.message);
-                    continue; // Try next proxy
-                }
-            }
 
-            // If all proxies failed, log it
-            if (Object.keys(prices).length === 0) {
-                console.warn('All proxies failed - using fallback prices');
+                        const url = `https://finnhub.io/api/v1/quote?symbol=${finnhubSymbol}&token=${FINNHUB_KEY}`;
+                        const response = await fetch(url);
+                        const data = await response.json();
+
+                        if (data && data.c && data.c > 0) {
+                            console.log(`${symbol}: ${data.c}`);
+                            return { symbol, price: data.c, change: data.d || 0, changePercent: data.dp || 0 };
+                        }
+                        return null;
+                    } catch (e) {
+                        console.error(`Failed to fetch ${symbol}:`, e);
+                        return null;
+                    }
+                });
+
+                const results = await Promise.all(pricePromises);
+
+                for (const result of results) {
+                    if (result) {
+                        prices[result.symbol] = {
+                            price: result.price,
+                            change: result.change,
+                            changePercent: result.changePercent,
+                            marketState: 'REGULAR'
+                        };
+                    }
+                }
+
+                // Fetch USD/DKK exchange rate from exchangerate-api (free, no CORS)
+                try {
+                    const fxResponse = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+                    const fxData = await fxResponse.json();
+                    if (fxData && fxData.rates && fxData.rates.DKK) {
+                        exchangeRates.USD = fxData.rates.DKK;
+                        console.log('USD/DKK rate:', exchangeRates.USD);
+                    }
+                } catch (e) {
+                    console.error('Failed to fetch exchange rate:', e);
+                }
+
+            } catch (error) {
+                console.error('Failed to fetch prices:', error);
             }
 
             return prices;
