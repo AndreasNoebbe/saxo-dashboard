@@ -22,13 +22,12 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install requests
+        run: pip install requests cryptography
 
-      - name: Decrypt and restore tokens
+      - name: Decrypt tokens
         env:
           TOKENS_PASSPHRASE: ${{ secrets.TOKENS_PASSPHRASE }}
-        run: |
-          openssl enc -aes-256-cbc -d -pbkdf2 -in tokens_live.json.enc -out tokens_live.json -pass pass:"$TOKENS_PASSPHRASE"
+        run: python scripts/decrypt_tokens.py
 
       - name: Fetch positions
         env:
@@ -39,8 +38,7 @@ jobs:
       - name: Re-encrypt tokens (in case they were refreshed)
         env:
           TOKENS_PASSPHRASE: ${{ secrets.TOKENS_PASSPHRASE }}
-        run: |
-          openssl enc -aes-256-cbc -pbkdf2 -in tokens_live.json -out tokens_live.json.enc -pass pass:"$TOKENS_PASSPHRASE"
+        run: python encrypt_tokens.py
 
       - name: Commit and push
         run: |
