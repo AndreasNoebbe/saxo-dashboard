@@ -446,6 +446,7 @@
 
         // Exchange rates (updated when fetching prices)
         let exchangeRates = { USD: 7.0 }; // Default fallback
+        let livePrices = {}; // Store fetched live prices
 
         function formatNumber(num, decimals = 2) {
             return new Intl.NumberFormat('da-DK', {
@@ -468,94 +469,90 @@
             return map[sector] || '';
         }
 
-        // Fetch live prices using Finnhub API (free, no CORS issues)
-        async function fetchLivePrices(symbols) {
+        // Fetch USD/DKK exchange rate
+        async function fetchExchangeRate() {
+            try {
+                const fxResponse = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+                const fxData = await fxResponse.json();
+                if (fxData && fxData.rates && fxData.rates.DKK) {
+                    exchangeRates.USD = fxData.rates.DKK;
+                    console.log('USD/DKK rate:', exchangeRates.USD);
+                }
+            } catch (e) {
+                console.error('Failed to fetch exchange rate:', e);
+            }
+        }
+
+        // Fetch live prices using Yahoo Finance chart API via a CORS proxy
+        async function fetchLivePrices(holdings) {
             const prices = {};
 
-            // Finnhub free API key (public demo key - rate limited but works)
-            const FINNHUB_KEY = 'ctv80dhr01qhb4a8lve0ctv80dhr01qhb4a8lveg';
+            // Use corsproxy.io which works well with Yahoo Finance
+            const PROXY = 'https://corsproxy.io/?';
 
-            try {
-                // Fetch each symbol from Finnhub
-                const pricePromises = symbols.map(async (symbol) => {
-                    try {
-                        // Finnhub uses simple ticker symbols (no exchange suffix for US stocks)
-                        let finnhubSymbol = symbol;
-                        if (symbol.includes('.CO')) {
-                            finnhubSymbol = symbol.replace('.CO', '.CO'); // Keep Copenhagen suffix
-                        }
-
-                        const url = `https://finnhub.io/api/v1/quote?symbol=${finnhubSymbol}&token=${FINNHUB_KEY}`;
-                        const response = await fetch(url);
-                        const data = await response.json();
-
-                        if (data && data.c && data.c > 0) {
-                            console.log(`${symbol}: ${data.c}`);
-                            return { symbol, price: data.c, change: data.d || 0, changePercent: data.dp || 0 };
-                        }
-                        return null;
-                    } catch (e) {
-                        console.error(`Failed to fetch ${symbol}:`, e);
-                        return null;
-                    }
-                });
-
-                const results = await Promise.all(pricePromises);
-
-                for (const result of results) {
-                    if (result) {
-                        prices[result.symbol] = {
-                            price: result.price,
-                            change: result.change,
-                            changePercent: result.changePercent,
-                            marketState: 'REGULAR'
-                        };
-                    }
-                }
-
-                // Fetch USD/DKK exchange rate from exchangerate-api (free, no CORS)
+            for (const holding of holdings) {
+                const yahooSymbol = holding.yahoo_symbol;
                 try {
-                    const fxResponse = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
-                    const fxData = await fxResponse.json();
-                    if (fxData && fxData.rates && fxData.rates.DKK) {
-                        exchangeRates.USD = fxData.rates.DKK;
-                        console.log('USD/DKK rate:', exchangeRates.USD);
+                    // Yahoo Finance chart API - more reliable than quote API
+                    const url = `${PROXY}${encodeURIComponent(`https://query1.finance.yahoo.com/v8/finance/chart/${yahooSymbol}?interval=1d&range=1d`)}`;
+                    const response = await fetch(url);
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        const result = data?.chart?.result?.[0];
+                        if (result) {
+                            const meta = result.meta;
+                            const price = meta.regularMarketPrice;
+                            if (price && price > 0) {
+                                prices[holding.symbol] = {
+                                    price: price,
+                                    previousClose: meta.previousClose || price,
+                                    change: price - (meta.previousClose || price),
+                                    changePercent: meta.previousClose ? ((price - meta.previousClose) / meta.previousClose * 100) : 0
+                                };
+                                console.log(`${yahooSymbol}: ${price}`);
+                            }
+                        }
                     }
                 } catch (e) {
-                    console.error('Failed to fetch exchange rate:', e);
+                    console.error(`Failed to fetch ${yahooSymbol}:`, e.message);
                 }
-
-            } catch (error) {
-                console.error('Failed to fetch prices:', error);
             }
 
             return prices;
         }
 
-        function calculatePortfolioData(holdings, prices) {
+        // Calculate portfolio data with live prices
+        function calculatePortfolioData(holdings, cashBalance) {
             const positions = [];
             let totalPositionsValue = 0;
-            let totalPL = 0;
+            let totalProfitLoss = 0;
 
-            for (const holding of holdings.holdings) {
-                const priceData = prices[holding.yahoo_symbol] || {};
-                const currentPrice = priceData.price || holding.avg_price; // Fallback to avg price
-                const marketState = priceData.marketState || 'CLOSED';
+            for (const holding of holdings) {
+                const liveData = livePrices[holding.symbol];
+                const currentPrice = liveData ? liveData.price : holding.avg_price;
 
-                // Calculate values
+                // Calculate market value in original currency
                 const marketValue = holding.shares * currentPrice;
-                const costBasis = holding.shares * holding.avg_price;
-                const profitLoss = marketValue - costBasis;
-                const profitLossPct = costBasis > 0 ? ((marketValue - costBasis) / costBasis) * 100 : 0;
 
                 // Convert to DKK
-                const rate = holding.currency === 'USD' ? exchangeRates.USD : 1;
-                const marketValueDkk = marketValue * rate;
-                const profitLossDkk = profitLoss * rate;
+                let marketValueDkk = marketValue;
+                if (holding.currency === 'USD') {
+                    marketValueDkk = marketValue * exchangeRates.USD;
+                }
+
+                // Calculate profit/loss
+                const costBasis = holding.shares * holding.avg_price;
+                const profitLoss = marketValue - costBasis;
+                let profitLossDkk = profitLoss;
+                if (holding.currency === 'USD') {
+                    profitLossDkk = profitLoss * exchangeRates.USD;
+                }
+
+                const profitLossPct = holding.avg_price > 0 ? ((currentPrice - holding.avg_price) / holding.avg_price * 100) : 0;
 
                 positions.push({
                     symbol: holding.symbol,
-                    yahoo_symbol: holding.yahoo_symbol,
                     description: holding.description,
                     currency: holding.currency,
                     amount: holding.shares,
@@ -567,53 +564,56 @@
                     profit_loss_dkk: profitLossDkk,
                     profit_loss_pct: profitLossPct,
                     sector: holding.sector,
-                    market_state: marketState === 'REGULAR' ? 'Open' : 'Closed'
+                    market_state: liveData ? 'Live' : 'Cached'
                 });
 
                 totalPositionsValue += marketValueDkk;
-                totalPL += profitLossDkk;
+                totalProfitLoss += profitLossDkk;
             }
 
-            // Sort by market value
+            // Sort by market value descending
             positions.sort((a, b) => b.market_value_dkk - a.market_value_dkk);
 
+            const totalValue = totalPositionsValue + cashBalance;
+
             // Calculate allocations
-            const holdingsAllocation = positions.map(pos => ({
-                symbol: pos.symbol,
-                description: pos.description,
-                value: pos.market_value_dkk,
-                percentage: totalPositionsValue > 0 ? (pos.market_value_dkk / totalPositionsValue) * 100 : 0
+            const holdingsAllocation = positions.map(p => ({
+                symbol: p.symbol,
+                description: p.description,
+                value: p.market_value_dkk,
+                percentage: totalPositionsValue > 0 ? (p.market_value_dkk / totalPositionsValue * 100) : 0
             }));
 
             const sectorTotals = {};
-            for (const pos of positions) {
-                sectorTotals[pos.sector] = (sectorTotals[pos.sector] || 0) + pos.market_value_dkk;
+            for (const p of positions) {
+                sectorTotals[p.sector] = (sectorTotals[p.sector] || 0) + p.market_value_dkk;
             }
-
-            const sectorAllocation = Object.entries(sectorTotals).map(([sector, value]) => ({
-                sector,
-                value,
-                percentage: totalPositionsValue > 0 ? (value / totalPositionsValue) * 100 : 0
-            })).sort((a, b) => b.value - a.value);
+            const sectorAllocation = Object.entries(sectorTotals)
+                .map(([sector, value]) => ({
+                    sector,
+                    value,
+                    percentage: totalPositionsValue > 0 ? (value / totalPositionsValue * 100) : 0
+                }))
+                .sort((a, b) => b.value - a.value);
 
             return {
-                positions,
                 summary: {
-                    total_value: totalPositionsValue + holdings.cash_balance,
+                    total_value: totalValue,
                     positions_value: totalPositionsValue,
-                    cash_balance: holdings.cash_balance,
-                    total_pl: totalPL
+                    cash_balance: cashBalance
                 },
+                positions,
                 allocations: {
                     by_holding: holdingsAllocation,
                     by_sector: sectorAllocation
-                }
+                },
+                totalProfitLoss
             };
         }
 
         function renderSummary(data) {
-            const { summary } = data;
-            const plClass = summary.total_pl >= 0 ? 'positive' : 'negative';
+            const { summary, totalProfitLoss } = data;
+            const plClass = totalProfitLoss >= 0 ? 'positive' : 'negative';
 
             document.getElementById('summaryCards').innerHTML = `
                 <div class="card">
@@ -630,7 +630,7 @@
                 </div>
                 <div class="card">
                     <div class="card-label">Total P/L</div>
-                    <div class="card-value ${plClass}">${summary.total_pl >= 0 ? '+' : ''}${formatCurrency(summary.total_pl)}</div>
+                    <div class="card-value ${plClass}">${totalProfitLoss >= 0 ? '+' : ''}${formatCurrency(totalProfitLoss)}</div>
                 </div>
             `;
         }
@@ -639,7 +639,7 @@
             const tbody = document.getElementById('positionsTable');
             tbody.innerHTML = positions.map(pos => {
                 const plClass = pos.profit_loss_dkk >= 0 ? 'positive' : 'negative';
-                const marketClass = pos.market_state === 'Open' ? 'open' : 'closed';
+                const marketClass = pos.market_state === 'Live' ? 'open' : 'closed';
                 const sectorClass = getSectorClass(pos.sector);
 
                 return `
@@ -752,25 +752,27 @@
             try {
                 document.getElementById('lastUpdated').textContent = 'Fetching live prices...';
 
-                // Load holdings (static data from last Saxo sync)
-                const holdingsResponse = await fetch(HOLDINGS_URL);
-                const holdings = await holdingsResponse.json();
+                // Load holdings data (static data with shares, cost basis, sectors)
+                const holdingsResponse = await fetch('data/holdings.json');
+                const holdingsData = await holdingsResponse.json();
 
-                // Get Yahoo symbols for price lookup
-                const yahooSymbols = holdings.holdings.map(h => h.yahoo_symbol);
+                // Fetch live exchange rate and live prices in parallel
+                const [_, prices] = await Promise.all([
+                    fetchExchangeRate(),
+                    fetchLivePrices(holdingsData.holdings)
+                ]);
 
-                // Fetch live prices from Yahoo Finance
-                const prices = await fetchLivePrices(yahooSymbols);
+                livePrices = prices;
+                const livePriceCount = Object.keys(livePrices).length;
+                console.log(`Fetched ${livePriceCount} live prices`);
 
-                // Calculate portfolio with live prices
-                const data = calculatePortfolioData(holdings, prices);
+                // Calculate portfolio data with live prices
+                const data = calculatePortfolioData(holdingsData.holdings, holdingsData.cash_balance);
 
-                // Update header with sync info
-                const lastSynced = new Date(holdings.last_synced);
-                const pricesFetched = Object.keys(prices).length > 0;
-                const priceStatus = pricesFetched ? '<strong style="color:#00d26a">Live</strong>' : '<strong style="color:#ff4757">Offline</strong>';
+                // Update status
+                const now = new Date();
                 document.getElementById('lastUpdated').innerHTML =
-                    `Prices: ${priceStatus} | Holdings synced: ${lastSynced.toLocaleString('da-DK')} | USD/DKK: ${formatNumber(exchangeRates.USD, 4)}`;
+                    `Live prices: ${now.toLocaleString('da-DK')} | USD/DKK: ${formatNumber(exchangeRates.USD, 4)} | ${livePriceCount}/${holdingsData.holdings.length} live`;
 
                 // Render components
                 renderSummary(data);
