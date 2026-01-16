@@ -7,12 +7,20 @@ import requests
 from datetime import datetime, timedelta
 from pathlib import Path
 
+try:
+    import yfinance as yf
+    YFINANCE_AVAILABLE = True
+except ImportError:
+    YFINANCE_AVAILABLE = False
+    print("yfinance not installed - using manual sector mapping only")
+
 # Paths
 SCRIPT_DIR = Path(__file__).parent
 PROJECT_DIR = SCRIPT_DIR.parent
 TOKENS_FILE = PROJECT_DIR / "tokens_live.json"
 DATA_DIR = PROJECT_DIR / "data"
 POSITIONS_FILE = DATA_DIR / "positions.json"
+SECTOR_CACHE_FILE = DATA_DIR / "sector_cache.json"
 
 # Saxo API
 BASE_URL = "https://gateway.saxobank.com/openapi"
@@ -22,7 +30,7 @@ TOKEN_URL = "https://live.logonvalidation.net/token"
 APP_KEY = os.environ.get("SAXO_APP_KEY", "a8c97c9fa28f4668aa16b0501b5223bf")
 APP_SECRET = os.environ.get("SAXO_APP_SECRET", "a3c9040b2eeb4a1a98dc45b7a5458fc2")
 
-# Sector mapping for stocks
+# Manual sector mapping (fallback/override)
 SECTOR_MAP = {
     "NOVOb:xcse": "Healthcare",
     "NVO:xnys": "Healthcare",
@@ -33,6 +41,98 @@ SECTOR_MAP = {
     "DUOL:xnas": "Technology",
     "FISV:xnas": "Financial Services",
 }
+
+def load_sector_cache():
+    """Load cached sector lookups"""
+    if SECTOR_CACHE_FILE.exists():
+        with open(SECTOR_CACHE_FILE) as f:
+            return json.load(f)
+    return {}
+
+def save_sector_cache(cache):
+    """Save sector cache to file"""
+    with open(SECTOR_CACHE_FILE, "w") as f:
+        json.dump(cache, f, indent=2)
+
+def convert_saxo_symbol_to_yahoo(symbol):
+    """Convert Saxo symbol format to Yahoo Finance format.
+
+    Saxo format: SYMBOL:exchange (e.g., NOVOb:xcse, PYPL:xnas)
+    Yahoo format: SYMBOL or SYMBOL.exchange (e.g., NOVO-B.CO, PYPL)
+    """
+    if ":" not in symbol:
+        return symbol
+
+    ticker, exchange = symbol.split(":", 1)
+
+    # Exchange mappings
+    exchange_map = {
+        "xnas": "",       # NASDAQ - no suffix needed
+        "xnys": "",       # NYSE - no suffix needed
+        "xcse": ".CO",    # Copenhagen Stock Exchange
+        "xlon": ".L",     # London
+        "xpar": ".PA",    # Paris
+        "xfra": ".F",     # Frankfurt
+        "xams": ".AS",    # Amsterdam
+    }
+
+    # Special ticker transformations for Copenhagen
+    if exchange == "xcse":
+        # NOVOb -> NOVO-B (Danish stocks use dash format)
+        if ticker.endswith("b"):
+            ticker = ticker[:-1] + "-B"
+        elif ticker.endswith("a"):
+            ticker = ticker[:-1] + "-A"
+
+    suffix = exchange_map.get(exchange, "")
+    return f"{ticker}{suffix}"
+
+def lookup_sector(symbol):
+    """Look up sector for a stock using Yahoo Finance.
+
+    Returns sector string or None if lookup fails.
+    """
+    if not YFINANCE_AVAILABLE:
+        return None
+
+    yahoo_symbol = convert_saxo_symbol_to_yahoo(symbol)
+
+    try:
+        ticker = yf.Ticker(yahoo_symbol)
+        info = ticker.info
+        sector = info.get("sector")
+        if sector:
+            print(f"  Found sector for {symbol} ({yahoo_symbol}): {sector}")
+            return sector
+    except Exception as e:
+        print(f"  Could not lookup sector for {symbol}: {e}")
+
+    return None
+
+def get_sector(symbol, sector_cache):
+    """Get sector for a symbol, using cache and auto-lookup.
+
+    Priority:
+    1. Manual SECTOR_MAP (override)
+    2. Cached lookup
+    3. Fresh Yahoo Finance lookup
+    4. "Other" as fallback
+    """
+    # Check manual override first
+    if symbol in SECTOR_MAP:
+        return SECTOR_MAP[symbol]
+
+    # Check cache
+    if symbol in sector_cache:
+        return sector_cache[symbol]
+
+    # Try auto-lookup
+    sector = lookup_sector(symbol)
+    if sector:
+        sector_cache[symbol] = sector
+        return sector
+
+    return "Other"
 
 def load_tokens():
     """Load tokens from file"""
@@ -130,7 +230,7 @@ def fetch_instrument_details(access_token, uics):
 
     return all_instruments
 
-def build_positions(net_positions, balances, instruments):
+def build_positions(net_positions, balances, instruments, sector_cache):
     """Build positions list using data from multiple sources"""
 
     # Extract market values from balances (available even when markets closed)
@@ -181,7 +281,7 @@ def build_positions(net_positions, balances, instruments):
             "profit_loss": round(view.get("ProfitLossOnTrade", 0), 2),
             "profit_loss_dkk": round(view.get("ProfitLossOnTradeInBaseCurrency", 0), 2),
             "profit_loss_pct": round((current_price - avg_price) / avg_price * 100, 2) if avg_price > 0 else 0,
-            "sector": SECTOR_MAP.get(symbol, "Other"),
+            "sector": get_sector(symbol, sector_cache),
             "asset_type": base.get("AssetType", "Stock"),
             "market_state": base.get("MarketState", "Unknown"),
         })
@@ -234,6 +334,9 @@ def main():
 
     access_token = get_valid_token()
 
+    # Load sector cache for auto-lookup
+    sector_cache = load_sector_cache()
+
     # Fetch all data
     balances = fetch_balances(access_token)
     net_positions = fetch_net_positions(access_token)
@@ -242,8 +345,12 @@ def main():
     uics = [pos["NetPositionBase"]["Uic"] for pos in net_positions.get("Data", [])]
     instruments = fetch_instrument_details(access_token, uics)
 
-    # Build positions
-    positions = build_positions(net_positions, balances, instruments)
+    # Build positions (with auto sector lookup)
+    print("Building positions with sector lookup...")
+    positions = build_positions(net_positions, balances, instruments, sector_cache)
+
+    # Save updated sector cache
+    save_sector_cache(sector_cache)
 
     # Get totals
     total_value = balances.get("TotalValue", 0)

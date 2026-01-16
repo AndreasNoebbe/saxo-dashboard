@@ -66,7 +66,7 @@ class OAuthHandler(http.server.SimpleHTTPRequestHandler):
 
             if "code" in params:
                 code = params["code"][0]
-                print(f"\n✓ Got authorization code")
+                print(f"\n[OK] Got authorization code")
 
                 # Exchange code for tokens
                 token_data = {
@@ -86,7 +86,7 @@ class OAuthHandler(http.server.SimpleHTTPRequestHandler):
                 elif response.text and "access_token" in response.text:
                     tokens = json.loads(response.text)
                 else:
-                    print(f"✗ Token exchange failed: {response.text}")
+                    print(f"[ERROR] Token exchange failed: {response.text}")
                     self.send_error(400, "Token exchange failed")
                     return
 
@@ -107,9 +107,9 @@ class OAuthHandler(http.server.SimpleHTTPRequestHandler):
                 with open("tokens_live.json", "w") as f:
                     json.dump(token_file, f, indent=2)
 
-                print(f"✓ Access token received (expires: {access_expires})")
-                print(f"✓ Refresh token received (expires: {refresh_expires})")
-                print(f"✓ Tokens saved to tokens_live.json")
+                print(f"[OK] Access token received (expires: {access_expires})")
+                print(f"[OK] Refresh token received (expires: {refresh_expires})")
+                print(f"[OK] Tokens saved to tokens_live.json")
 
                 # Send success response to browser
                 self.send_response(200)
@@ -126,7 +126,7 @@ class OAuthHandler(http.server.SimpleHTTPRequestHandler):
                 self.server.should_stop = True
             else:
                 error = params.get("error", ["Unknown"])[0]
-                print(f"✗ OAuth error: {error}")
+                print(f"[ERROR] OAuth error: {error}")
                 self.send_error(400, f"OAuth error: {error}")
         else:
             self.send_error(404)
