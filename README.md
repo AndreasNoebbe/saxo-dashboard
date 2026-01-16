@@ -11,4 +11,3 @@ python scripts/fetch_positions.py
 git add data/holdings.json data/positions.json
 git commit -m "Update holdings"
 git push
-
