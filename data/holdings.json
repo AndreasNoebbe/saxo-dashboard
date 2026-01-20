@@ -1,6 +1,6 @@
 {
-  "last_synced": "2026-01-16T15:50:06.854644",
-  "cash_balance": 6042.81,
+  "last_synced": "2026-01-20T21:22:50.039881",
+  "cash_balance": 706.5,
   "currency": "DKK",
   "holdings": [
     {
@@ -22,6 +22,24 @@
       "sector": "Healthcare"
     },
     {
+      "symbol": "JD:xnas",
+      "yahoo_symbol": "JD",
+      "description": "JD.com Inc. - ADR",
+      "currency": "USD",
+      "shares": 150.0,
+      "avg_price": 28.75,
+      "sector": "Consumer Cyclical"
+    },
+    {
+      "symbol": "SSYS:xnas",
+      "yahoo_symbol": "SSYS",
+      "description": "Stratasys Ltd",
+      "currency": "USD",
+      "shares": 100.0,
+      "avg_price": 12.05,
+      "sector": "Technology"
+    },
+    {
       "symbol": "PATH:xnys",
       "yahoo_symbol": "PATH",
       "description": "UiPath Inc.",
@@ -31,21 +49,12 @@
       "sector": "Other"
     },
     {
-      "symbol": "JD:xnas",
-      "yahoo_symbol": "JD",
-      "description": "JD.com Inc. - ADR",
-      "currency": "USD",
-      "shares": 30.0,
-      "avg_price": 29.98,
-      "sector": "Consumer Cyclical"
-    },
-    {
       "symbol": "MSTR:xnas",
       "yahoo_symbol": "MSTR",
       "description": "Strategy Inc.",
       "currency": "USD",
-      "shares": 5.0,
-      "avg_price": 160.01,
+      "shares": 0.0,
+      "avg_price": 0.0,
       "sector": "Technology"
     },
     {
@@ -53,35 +62,17 @@
       "yahoo_symbol": "PYPL",
       "description": "PayPal Holdings Inc.",
       "currency": "USD",
-      "shares": 15.0,
-      "avg_price": 56.53,
+      "shares": 0.0,
+      "avg_price": 0.0,
       "sector": "Financial Services"
-    },
-    {
-      "symbol": "XPEV:xnys",
-      "yahoo_symbol": "XPEV",
-      "description": "XPeng Inc. - ADR",
-      "currency": "USD",
-      "shares": 40.0,
-      "avg_price": 20.96,
-      "sector": "Consumer Cyclical"
-    },
-    {
-      "symbol": "SSYS:xnas",
-      "yahoo_symbol": "SSYS",
-      "description": "Stratasys Ltd",
-      "currency": "USD",
-      "shares": 70.0,
-      "avg_price": 12.56,
-      "sector": "Technology"
     },
     {
       "symbol": "DUOL:xnas",
       "yahoo_symbol": "DUOL",
       "description": "Duolingo Inc.",
       "currency": "USD",
-      "shares": 5.0,
-      "avg_price": 158.98,
+      "shares": 0.0,
+      "avg_price": 0.0,
       "sector": "Technology"
     },
     {
@@ -89,9 +80,18 @@
       "yahoo_symbol": "FISV",
       "description": "Fiserv Inc",
       "currency": "USD",
-      "shares": 10.0,
-      "avg_price": 66.98,
+      "shares": 0.0,
+      "avg_price": 0.0,
       "sector": "Financial Services"
+    },
+    {
+      "symbol": "XPEV:xnys",
+      "yahoo_symbol": "XPEV",
+      "description": "XPeng Inc. - ADR",
+      "currency": "USD",
+      "shares": 0.0,
+      "avg_price": 0.0,
+      "sector": "Consumer Cyclical"
     }
   ]
 }

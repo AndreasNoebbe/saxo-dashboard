@@ -1,12 +1,12 @@
 {
-  "last_updated": "2026-01-16T15:50:06.853792",
+  "last_updated": "2026-01-20T21:22:50.038353",
   "currency": "DKK",
   "summary": {
-    "total_value": 692723.65,
-    "cash_balance": 6042.81,
-    "positions_value": 691466.41,
-    "open_positions_count": 57,
-    "net_positions_count": 11
+    "total_value": 701356.77,
+    "cash_balance": 706.5,
+    "positions_value": 699644.09,
+    "open_positions_count": 65,
+    "net_positions_count": 10
   },
   "positions": [
     {
@@ -16,15 +16,15 @@
       "currency": "DKK",
       "amount": 1200.0,
       "avg_price": 369.35,
-      "current_price": 383.0,
-      "market_value": 459600.0,
-      "market_value_dkk": 459600.0,
-      "profit_loss": 17334.1,
-      "profit_loss_dkk": 17334.1,
-      "profit_loss_pct": 3.69,
+      "current_price": 389.5,
+      "market_value": 467400.0,
+      "market_value_dkk": 467400.0,
+      "profit_loss": 24174.1,
+      "profit_loss_dkk": 24174.1,
+      "profit_loss_pct": 5.45,
       "sector": "Healthcare",
       "asset_type": "Stock",
-      "market_state": "Open"
+      "market_state": "Closed"
     },
     {
       "uic": 24149,
@@ -33,13 +33,47 @@
       "currency": "USD",
       "amount": 500.0,
       "avg_price": 55.4,
-      "current_price": 59.52,
-      "market_value": 29757.5,
-      "market_value_dkk": 190869.2,
-      "profit_loss": 2102.89,
-      "profit_loss_dkk": 13737.53,
-      "profit_loss_pct": 7.42,
+      "current_price": 60.81,
+      "market_value": 30402.5,
+      "market_value_dkk": 193403.73,
+      "profit_loss": 2720.39,
+      "profit_loss_dkk": 17771.47,
+      "profit_loss_pct": 9.75,
       "sector": "Healthcare",
+      "asset_type": "Stock",
+      "market_state": "Open"
+    },
+    {
+      "uic": 881301,
+      "symbol": "JD:xnas",
+      "description": "JD.com Inc. - ADR",
+      "currency": "USD",
+      "amount": 150.0,
+      "avg_price": 28.75,
+      "current_price": 28.39,
+      "market_value": 4258.5,
+      "market_value_dkk": 27090.2,
+      "profit_loss": -35.06,
+      "profit_loss_dkk": -224.47,
+      "profit_loss_pct": -1.25,
+      "sector": "Consumer Cyclical",
+      "asset_type": "Stock",
+      "market_state": "Open"
+    },
+    {
+      "uic": 15123,
+      "symbol": "SSYS:xnas",
+      "description": "Stratasys Ltd",
+      "currency": "USD",
+      "amount": 100.0,
+      "avg_price": 12.05,
+      "current_price": 10.8,
+      "market_value": 1080.0,
+      "market_value_dkk": 6870.36,
+      "profit_loss": -123.38,
+      "profit_loss_dkk": -793.6,
+      "profit_loss_pct": -10.4,
+      "sector": "Technology",
       "asset_type": "Stock",
       "market_state": "Open"
     },
@@ -50,30 +84,13 @@
       "currency": "USD",
       "amount": 60.0,
       "avg_price": 14.62,
-      "current_price": 14.61,
-      "market_value": 876.58,
-      "market_value_dkk": 5622.53,
-      "profit_loss": -16.5,
-      "profit_loss_dkk": -106.39,
-      "profit_loss_pct": -0.07,
+      "current_price": 14.26,
+      "market_value": 855.6,
+      "market_value_dkk": 5442.85,
+      "profit_loss": -21.9,
+      "profit_loss_dkk": -141.2,
+      "profit_loss_pct": -2.46,
       "sector": "Other",
-      "asset_type": "Stock",
-      "market_state": "Open"
-    },
-    {
-      "uic": 881301,
-      "symbol": "JD:xnas",
-      "description": "JD.com Inc. - ADR",
-      "currency": "USD",
-      "amount": 30.0,
-      "avg_price": 29.98,
-      "current_price": 28.97,
-      "market_value": 868.95,
-      "market_value_dkk": 5573.58,
-      "profit_loss": -33.08,
-      "profit_loss_dkk": -212.87,
-      "profit_loss_pct": -3.38,
-      "sector": "Consumer Cyclical",
       "asset_type": "Stock",
       "market_state": "Open"
     },
@@ -82,14 +99,14 @@
       "symbol": "MSTR:xnas",
       "description": "Strategy Inc.",
       "currency": "USD",
-      "amount": 5.0,
-      "avg_price": 160.01,
-      "current_price": 169.61,
-      "market_value": 848.05,
-      "market_value_dkk": 5439.52,
-      "profit_loss": 40.36,
-      "profit_loss_dkk": 259.15,
-      "profit_loss_pct": 6.0,
+      "amount": 0.0,
+      "avg_price": 0.0,
+      "current_price": 0.0,
+      "market_value": 0,
+      "market_value_dkk": 0,
+      "profit_loss": -0.65,
+      "profit_loss_dkk": -55.62,
+      "profit_loss_pct": 0,
       "sector": "Technology",
       "asset_type": "Stock",
       "market_state": "Open"
@@ -99,49 +116,15 @@
       "symbol": "PYPL:xnas",
       "description": "PayPal Holdings Inc.",
       "currency": "USD",
-      "amount": 15.0,
-      "avg_price": 56.53,
-      "current_price": 56.45,
-      "market_value": 846.75,
-      "market_value_dkk": 5431.19,
-      "profit_loss": -1.21,
-      "profit_loss_dkk": -7.8,
-      "profit_loss_pct": -0.14,
+      "amount": 0.0,
+      "avg_price": 0.0,
+      "current_price": 0.0,
+      "market_value": 0,
+      "market_value_dkk": 0,
+      "profit_loss": -11.97,
+      "profit_loss_dkk": -143.49,
+      "profit_loss_pct": 0,
       "sector": "Financial Services",
-      "asset_type": "Stock",
-      "market_state": "Open"
-    },
-    {
-      "uic": 18894512,
-      "symbol": "XPEV:xnys",
-      "description": "XPeng Inc. - ADR",
-      "currency": "USD",
-      "amount": 40.0,
-      "avg_price": 20.96,
-      "current_price": 20.59,
-      "market_value": 823.6,
-      "market_value_dkk": 5282.7,
-      "profit_loss": -23.8,
-      "profit_loss_dkk": -153.62,
-      "profit_loss_pct": -1.77,
-      "sector": "Consumer Cyclical",
-      "asset_type": "Stock",
-      "market_state": "Open"
-    },
-    {
-      "uic": 15123,
-      "symbol": "SSYS:xnas",
-      "description": "Stratasys Ltd",
-      "currency": "USD",
-      "amount": 70.0,
-      "avg_price": 12.56,
-      "current_price": 11.53,
-      "market_value": 807.1,
-      "market_value_dkk": 5176.86,
-      "profit_loss": -79.87,
-      "profit_loss_dkk": -514.89,
-      "profit_loss_pct": -8.21,
-      "sector": "Technology",
       "asset_type": "Stock",
       "market_state": "Open"
     },
@@ -150,14 +133,14 @@
       "symbol": "DUOL:xnas",
       "description": "Duolingo Inc.",
       "currency": "USD",
-      "amount": 5.0,
-      "avg_price": 158.98,
-      "current_price": 149.5,
-      "market_value": 747.48,
-      "market_value_dkk": 4794.42,
-      "profit_loss": -49.87,
-      "profit_loss_dkk": -321.63,
-      "profit_loss_pct": -5.97,
+      "amount": 0.0,
+      "avg_price": 0.0,
+      "current_price": 0.0,
+      "market_value": 0,
+      "market_value_dkk": 0,
+      "profit_loss": -42.0,
+      "profit_loss_dkk": -342.78,
+      "profit_loss_pct": 0,
       "sector": "Technology",
       "asset_type": "Stock",
       "market_state": "Open"
@@ -167,15 +150,32 @@
       "symbol": "FISV:xnas",
       "description": "Fiserv Inc",
       "currency": "USD",
-      "amount": 10.0,
-      "avg_price": 66.98,
-      "current_price": 66.23,
-      "market_value": 662.3,
-      "market_value_dkk": 4248.09,
-      "profit_loss": -7.16,
-      "profit_loss_dkk": -46.17,
-      "profit_loss_pct": -1.11,
+      "amount": 0.0,
+      "avg_price": 0.0,
+      "current_price": 0.0,
+      "market_value": 0,
+      "market_value_dkk": 0,
+      "profit_loss": -12.89,
+      "profit_loss_dkk": -146.22,
+      "profit_loss_pct": 0,
       "sector": "Financial Services",
+      "asset_type": "Stock",
+      "market_state": "Open"
+    },
+    {
+      "uic": 18894512,
+      "symbol": "XPEV:xnys",
+      "description": "XPeng Inc. - ADR",
+      "currency": "USD",
+      "amount": 0.0,
+      "avg_price": 0.0,
+      "current_price": 0.0,
+      "market_value": 0,
+      "market_value_dkk": 0,
+      "profit_loss": -40.4,
+      "profit_loss_dkk": -336.11,
+      "profit_loss_pct": 0,
+      "sector": "Consumer Cyclical",
       "asset_type": "Stock",
       "market_state": "Open"
     }
@@ -185,89 +185,89 @@
       {
         "symbol": "NOVOb:xcse",
         "description": "Novo Nordisk B A/S",
-        "value": 459600.0,
-        "percentage": 66.47
+        "value": 467400.0,
+        "percentage": 66.81
       },
       {
         "symbol": "NVO:xnys",
         "description": "Novo Nordisk A/S - ADR",
-        "value": 190869.2,
-        "percentage": 27.6
-      },
-      {
-        "symbol": "PATH:xnys",
-        "description": "UiPath Inc.",
-        "value": 5622.53,
-        "percentage": 0.81
+        "value": 193403.73,
+        "percentage": 27.64
       },
       {
         "symbol": "JD:xnas",
         "description": "JD.com Inc. - ADR",
-        "value": 5573.58,
-        "percentage": 0.81
-      },
-      {
-        "symbol": "MSTR:xnas",
-        "description": "Strategy Inc.",
-        "value": 5439.52,
-        "percentage": 0.79
-      },
-      {
-        "symbol": "PYPL:xnas",
-        "description": "PayPal Holdings Inc.",
-        "value": 5431.19,
-        "percentage": 0.79
-      },
-      {
-        "symbol": "XPEV:xnys",
-        "description": "XPeng Inc. - ADR",
-        "value": 5282.7,
-        "percentage": 0.76
+        "value": 27090.2,
+        "percentage": 3.87
       },
       {
         "symbol": "SSYS:xnas",
         "description": "Stratasys Ltd",
-        "value": 5176.86,
-        "percentage": 0.75
+        "value": 6870.36,
+        "percentage": 0.98
+      },
+      {
+        "symbol": "PATH:xnys",
+        "description": "UiPath Inc.",
+        "value": 5442.85,
+        "percentage": 0.78
+      },
+      {
+        "symbol": "MSTR:xnas",
+        "description": "Strategy Inc.",
+        "value": 0,
+        "percentage": 0.0
+      },
+      {
+        "symbol": "PYPL:xnas",
+        "description": "PayPal Holdings Inc.",
+        "value": 0,
+        "percentage": 0.0
       },
       {
         "symbol": "DUOL:xnas",
         "description": "Duolingo Inc.",
-        "value": 4794.42,
-        "percentage": 0.69
+        "value": 0,
+        "percentage": 0.0
       },
       {
         "symbol": "FISV:xnas",
         "description": "Fiserv Inc",
-        "value": 4248.09,
-        "percentage": 0.61
+        "value": 0,
+        "percentage": 0.0
+      },
+      {
+        "symbol": "XPEV:xnys",
+        "description": "XPeng Inc. - ADR",
+        "value": 0,
+        "percentage": 0.0
       }
     ],
     "by_sector": [
       {
         "sector": "Healthcare",
-        "value": 650469.2,
-        "percentage": 94.07
-      },
-      {
-        "sector": "Technology",
-        "value": 15410.8,
-        "percentage": 2.23
+        "value": 660803.73,
+        "percentage": 94.45
       },
       {
         "sector": "Consumer Cyclical",
-        "value": 10856.28,
-        "percentage": 1.57
+        "value": 27090.2,
+        "percentage": 3.87
       },
       {
-        "sector": "Financial Services",
-        "value": 9679.28,
-        "percentage": 1.4
+        "sector": "Technology",
+        "value": 6870.36,
+        "percentage": 0.98
       },
       {
         "sector": "Other",
-        "value": 5622.53,
-        "percentage": 0.81
+        "value": 5442.85,
+        "percentage": 0.78
+      },
+      {
+        "sector": "Financial Services",
+        "value": 0,
+        "percentage": 0.0
       }
     ]
   }
