@@ -300,6 +300,9 @@ def build_positions(net_positions, balances, instruments, sector_cache):
             "market_state": base.get("MarketState", "Unknown"),
         })
 
+    # Filter out positions with 0 shares (sold positions)
+    positions = [p for p in positions if p["amount"] > 0]
+
     # Sort by market value descending
     positions.sort(key=lambda x: x["market_value_dkk"], reverse=True)
 

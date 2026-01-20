@@ -1,10 +1,7 @@
 name: Fetch Saxo Positions
 
 on:
-  schedule:
-    # Run every hour during extended market hours (6 AM - 11 PM CET, Mon-Fri)
-    - cron: '0 5-22 * * 1-5'
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch: # Manual trigger only
 
 jobs:
   fetch:
