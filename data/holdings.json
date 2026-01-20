@@ -1,6 +1,6 @@
 {
-  "last_synced": "2026-01-20T21:31:10.228674",
-  "cash_balance": 706.53,
+  "last_synced": "2026-01-20T21:44:57.380291",
+  "cash_balance": 706.54,
   "currency": "DKK",
   "holdings": [
     {
@@ -47,51 +47,6 @@
       "shares": 60.0,
       "avg_price": 14.62,
       "sector": "Other"
-    },
-    {
-      "symbol": "MSTR:xnas",
-      "yahoo_symbol": "MSTR",
-      "description": "Strategy Inc.",
-      "currency": "USD",
-      "shares": 0.0,
-      "avg_price": 0.0,
-      "sector": "Technology"
-    },
-    {
-      "symbol": "PYPL:xnas",
-      "yahoo_symbol": "PYPL",
-      "description": "PayPal Holdings Inc.",
-      "currency": "USD",
-      "shares": 0.0,
-      "avg_price": 0.0,
-      "sector": "Financial Services"
-    },
-    {
-      "symbol": "DUOL:xnas",
-      "yahoo_symbol": "DUOL",
-      "description": "Duolingo Inc.",
-      "currency": "USD",
-      "shares": 0.0,
-      "avg_price": 0.0,
-      "sector": "Technology"
-    },
-    {
-      "symbol": "FISV:xnas",
-      "yahoo_symbol": "FISV",
-      "description": "Fiserv Inc",
-      "currency": "USD",
-      "shares": 0.0,
-      "avg_price": 0.0,
-      "sector": "Financial Services"
-    },
-    {
-      "symbol": "XPEV:xnys",
-      "yahoo_symbol": "XPEV",
-      "description": "XPeng Inc. - ADR",
-      "currency": "USD",
-      "shares": 0.0,
-      "avg_price": 0.0,
-      "sector": "Consumer Cyclical"
     }
   ]
 }
