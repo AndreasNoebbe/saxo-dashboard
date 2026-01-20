@@ -1,10 +1,10 @@
 {
-  "last_updated": "2026-01-20T21:22:50.038353",
+  "last_updated": "2026-01-20T21:31:10.227761",
   "currency": "DKK",
   "summary": {
-    "total_value": 701356.77,
-    "cash_balance": 706.5,
-    "positions_value": 699644.09,
+    "total_value": 701506.09,
+    "cash_balance": 706.53,
+    "positions_value": 699793.24,
     "open_positions_count": 65,
     "net_positions_count": 10
   },
@@ -33,12 +33,12 @@
       "currency": "USD",
       "amount": 500.0,
       "avg_price": 55.4,
-      "current_price": 60.81,
-      "market_value": 30402.5,
-      "market_value_dkk": 193403.73,
-      "profit_loss": 2720.39,
-      "profit_loss_dkk": 17771.47,
-      "profit_loss_pct": 9.75,
+      "current_price": 60.87,
+      "market_value": 30435.0,
+      "market_value_dkk": 193550.21,
+      "profit_loss": 2727.89,
+      "profit_loss_dkk": 17820.47,
+      "profit_loss_pct": 9.87,
       "sector": "Healthcare",
       "asset_type": "Stock",
       "market_state": "Open"
@@ -50,12 +50,12 @@
       "currency": "USD",
       "amount": 150.0,
       "avg_price": 28.75,
-      "current_price": 28.39,
-      "market_value": 4258.5,
-      "market_value_dkk": 27090.2,
-      "profit_loss": -35.06,
-      "profit_loss_dkk": -224.47,
-      "profit_loss_pct": -1.25,
+      "current_price": 28.4,
+      "market_value": 4259.82,
+      "market_value_dkk": 27090.16,
+      "profit_loss": -42.68,
+      "profit_loss_dkk": -273.25,
+      "profit_loss_pct": -1.22,
       "sector": "Consumer Cyclical",
       "asset_type": "Stock",
       "market_state": "Open"
@@ -67,12 +67,12 @@
       "currency": "USD",
       "amount": 100.0,
       "avg_price": 12.05,
-      "current_price": 10.8,
-      "market_value": 1080.0,
-      "market_value_dkk": 6870.36,
-      "profit_loss": -123.38,
-      "profit_loss_dkk": -793.6,
-      "profit_loss_pct": -10.4,
+      "current_price": 10.81,
+      "market_value": 1080.75,
+      "market_value_dkk": 6872.99,
+      "profit_loss": -118.38,
+      "profit_loss_dkk": -761.44,
+      "profit_loss_pct": -10.34,
       "sector": "Technology",
       "asset_type": "Stock",
       "market_state": "Open"
@@ -84,12 +84,12 @@
       "currency": "USD",
       "amount": 60.0,
       "avg_price": 14.62,
-      "current_price": 14.26,
-      "market_value": 855.6,
-      "market_value_dkk": 5442.85,
-      "profit_loss": -21.9,
-      "profit_loss_dkk": -141.2,
-      "profit_loss_pct": -2.46,
+      "current_price": 14.27,
+      "market_value": 855.9,
+      "market_value_dkk": 5443.06,
+      "profit_loss": -19.5,
+      "profit_loss_dkk": -125.73,
+      "profit_loss_pct": -2.43,
       "sector": "Other",
       "asset_type": "Stock",
       "market_state": "Open"
@@ -186,30 +186,30 @@
         "symbol": "NOVOb:xcse",
         "description": "Novo Nordisk B A/S",
         "value": 467400.0,
-        "percentage": 66.81
+        "percentage": 66.79
       },
       {
         "symbol": "NVO:xnys",
         "description": "Novo Nordisk A/S - ADR",
-        "value": 193403.73,
-        "percentage": 27.64
+        "value": 193550.21,
+        "percentage": 27.66
       },
       {
         "symbol": "JD:xnas",
         "description": "JD.com Inc. - ADR",
-        "value": 27090.2,
+        "value": 27090.16,
         "percentage": 3.87
       },
       {
         "symbol": "SSYS:xnas",
         "description": "Stratasys Ltd",
-        "value": 6870.36,
+        "value": 6872.99,
         "percentage": 0.98
       },
       {
         "symbol": "PATH:xnys",
         "description": "UiPath Inc.",
-        "value": 5442.85,
+        "value": 5443.06,
         "percentage": 0.78
       },
       {
@@ -246,22 +246,22 @@
     "by_sector": [
       {
         "sector": "Healthcare",
-        "value": 660803.73,
+        "value": 660950.21,
         "percentage": 94.45
       },
       {
         "sector": "Consumer Cyclical",
-        "value": 27090.2,
+        "value": 27090.16,
         "percentage": 3.87
       },
       {
         "sector": "Technology",
-        "value": 6870.36,
+        "value": 6872.99,
         "percentage": 0.98
       },
       {
         "sector": "Other",
-        "value": 5442.85,
+        "value": 5443.06,
         "percentage": 0.78
       },
       {
